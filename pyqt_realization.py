@@ -1,12 +1,12 @@
 import sys
-from PyQt5 import QtCore
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets, QtGui, QtCore
 import subprocess
 import datetime
+import os
 
-
-DURATION_INT = 3
-
+DURATION_INT = 1500
+LOGO_NAME = 'logo.png'
+MUSIC_NAME = 'as.mp3'
 
 class MyMainWindow(QtWidgets.QMainWindow):
     def __init__(self):
@@ -28,6 +28,8 @@ class MyMainWindow(QtWidgets.QMainWindow):
         vbox.addWidget(self.stoper_button)
         self.starter_button.clicked.connect(self.timer_start)
         self.stoper_button.clicked.connect(self.stoper)
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + os.path.sep + 'logo.png'))
 
     def timer_start(self):
         self.time_left_int = DURATION_INT
@@ -45,7 +47,7 @@ class MyMainWindow(QtWidgets.QMainWindow):
             #self.widget_counter_int = (self.widget_counter_int + 1) % 4
             #self.time_left_int = DURATION_INT
             opener = "open" if sys.platform == "darwin" else "xdg-open"
-            subprocess.call([opener, 'as.mp3'])
+            subprocess.call([opener, MUSIC_NAME])
             self.my_qtimer.stop()
         self.update_gui()
 
@@ -55,7 +57,9 @@ class MyMainWindow(QtWidgets.QMainWindow):
     def stoper(self):
        self.my_qtimer.stop()
 
-app = QtWidgets.QApplication(sys.argv)
-main_window = MyMainWindow()
-main_window.show()
-sys.exit(app.exec_())
+
+if __name__ == '__main__':
+	app = QtWidgets.QApplication(sys.argv)
+	main_window = MyMainWindow()
+	main_window.show()
+	sys.exit(app.exec_())
