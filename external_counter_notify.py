@@ -26,8 +26,8 @@ def install_external_counter():
     move_to_user_place(counter_path)
 
 def runner(minute):
-    os.system("""counter %
-    notify - send '% is over !' 'time to begin it over' - -icon = dialog - information""", minute)
+    os.system("""countdown %m &&  notify-send '% time over!' 'This is an example notification.'
+                --icon=dialog-information && spd-say 'time over'""", minute)
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
